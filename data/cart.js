@@ -41,3 +41,17 @@ export function removeFromCart(productId){
 export function saveToStorage(){
   localStorage.setItem('cart', JSON.stringify(cart));
 }
+
+export function updateCartItemQuantity(productId, quantity){
+  console.log(cart);
+  const product = cart.find((element) => element.productId === productId);
+  quantity && (product.quantity = Number(quantity));
+}
+
+export function getCartQuantity(){
+  let cartQuantity = 0;
+  cart.forEach((cartItem)=>{
+    cartQuantity += cartItem.quantity;
+  });
+  return cartQuantity;
+}
