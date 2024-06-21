@@ -1,0 +1,1 @@
+export const taxPercentage = 10;

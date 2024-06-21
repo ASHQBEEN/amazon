@@ -210,23 +210,15 @@
   margin-bottom: 15px;
 }
 
-input{
+.quantity-input{
   width: 30px;
   display: none;
 }
 
-.is-editing-quantity{
-  display: initial;
-}
-
-.update-quantity-link-is-editing{
+.save-quantity-link, .update-quantity-link-is-editing{
   display: none;
 }
 
-.save-quantity-link{
-  display: none;
-}
-
-.save-quantity-link-is-editing{
+.save-quantity-link-is-editing, .is-editing-quantity{
   display: initial;
 }
