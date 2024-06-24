@@ -2,13 +2,14 @@ import {renderOrderSummary} from '../../script/checkout/orderSummary.js';
 import {cart, loadFromStorage} from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { formatCurrency } from '../../script/utils/money.js';
+import { loadProducts } from '../../data/products.js';
 
 describe('test suite: renderOrderSummary', ()=>{
 
   const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
   const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
 
-  beforeEach(()=>{
+  beforeEach((done)=>{
     document.querySelector('.js-test-container').innerHTML = `
     <div class="js-order-summary"></div>
     <div class="js-payment-summary"></div>
@@ -29,7 +30,12 @@ describe('test suite: renderOrderSummary', ()=>{
       ]);
     });
     loadFromStorage();
-    renderOrderSummary();
+    loadProducts(()=>{
+      renderOrderSummary();
+      done();
+    });
+
+    
   });
 
   it('displays the cart', ()=>{

@@ -1,7 +1,69 @@
+import { formatCurrency } from "../script/utils/money.js";
+
 export function getProduct(productId){
   return products.find((product)=>product.id === productId);
 }
 
+class Product{
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+  constructor(productObject){
+    this.id = productObject.id;
+    this.image = productObject.image;
+    this.name = productObject.name;
+    this.priceCents = productObject.priceCents;
+    this.rating = productObject.rating;
+  }
+
+  getStarsUrl(){
+    return `images/ratings/rating-${this.rating.stars*10}.png`;
+  }
+
+  getPrice(){
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+
+  extraInfoHtml(){
+    return '';
+  }
+}
+
+class Clothing extends Product{
+  sizeChartLink;
+
+  constructor(productObject){
+    super(productObject);
+    this.sizeChartLink = productObject.sizeChartLink;
+  }
+
+  extraInfoHtml(){
+    return `
+    <a href="${this.sizeChartLink}" target="_blank">Size chart</a>
+    `;
+  }
+}
+
+export let products = [];
+
+export function loadProducts(func){
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', ()=>{
+    products = JSON.parse(xhr.response).map((productObject)=>{
+      if(productObject.type === 'clothing')
+        return new Clothing(productObject);
+      else
+        return new Product(productObject)
+    });;
+    func();
+  });
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+}
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -661,4 +723,10 @@ export const products = [
       "mens"
     ]
   }
-];
+].map((productObject)=>{
+  if(productObject.type === 'clothing')
+    return new Clothing(productObject);
+  else
+    return new Product(productObject)
+});
+*/
