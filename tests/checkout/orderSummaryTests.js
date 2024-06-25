@@ -2,7 +2,7 @@ import {renderOrderSummary} from '../../script/checkout/orderSummary.js';
 import {cart, loadFromStorage} from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { formatCurrency } from '../../script/utils/money.js';
-import { loadProducts } from '../../data/products.js';
+import { loadProducts, loadProductsFetch } from '../../data/products.js';
 
 describe('test suite: renderOrderSummary', ()=>{
 
@@ -30,7 +30,7 @@ describe('test suite: renderOrderSummary', ()=>{
       ]);
     });
     loadFromStorage();
-    loadProducts(()=>{
+    loadProductsFetch().then(()=>{
       renderOrderSummary();
       done();
     });
